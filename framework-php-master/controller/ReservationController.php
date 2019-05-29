@@ -10,6 +10,7 @@ function index(){
 
 function addReservation(){
     render("reservation/addReservation");
+
 }
 
 function createNewReservation(){
@@ -38,3 +39,7 @@ function updateRes($id){
     header("location: ".URL."reservation/index");
 }
 
+function checkReservation(){
+    check($_POST["reservationName"], $_POST["reservationHorse"], $_POST["reservationStartTime"], $_POST["reservationRide"]);
+    
+}

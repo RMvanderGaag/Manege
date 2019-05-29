@@ -94,5 +94,37 @@ function updateReservation($id, $reservationName , $reservationHorse, $reservati
     
     $conn = null;
 }
+
+function check($reservationName, $reservationHorse, $reservationStartTime, $reservationRide){
+    try {
+        // Open de verbinding met de database
+        $conn=openDatabaseConnection();
+        $sql = "SELECT * FROM reservation WHERE start_time = :reservationStartTime";
+        $query = $conn->prepare($sql);
+        $query->bindParam(":reservationStartTime", $reservationStartTime);
+        $query->execute();
+
+
+        if($query->rowCount() > 0){
+            echo "<script type='text/javascript'>alert('Het paard is al gereserveerd rond deze tijd');</script>";
+            addReservation();
+        }else{
+            $sql = "INSERT INTO reservation(customer_id, horse_id, start_time) VALUES(:reservationName, :reservationHorse, :reservationStartTime)";
+            $query = $conn->prepare($sql);
+            $query->bindParam(":reservationName", $reservationName);
+            $query->bindParam(":reservationHorse", $reservationHorse);
+            $query->bindParam(":reservationStartTime", $reservationStartTime);
+            $query->execute();
+            header("location: ".URL."reservation/index");
+        }
+    }
+    catch(PDOException $e){
+
+        echo "Connection failed: " . $e->getMessage();
+    }
+    
+    $conn = null;
+}
+
     
 

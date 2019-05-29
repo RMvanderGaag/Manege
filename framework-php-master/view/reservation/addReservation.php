@@ -1,5 +1,5 @@
 <div class="container">
-    <form action="<?=URL?>reservation/createNewReservation" method="post">
+    <form action="<?=URL?>reservation/checkReservation" method="post">
         <div class="form-group">
             <label class="lead" for="">Naam</label>
             <select class="form-control" name="reservationName" id="" required>
@@ -19,8 +19,12 @@
             </select>
         </div>
         <div class="form-group">
+                <label for="">Ritten</label>
+                <input type="number" class="form-control" name="reservationRide">
+        </div>
+        <div class="form-group">
             <label class="lead" for="">starttijd</label>
-            <input class="form-control" type="time" name="reservationStartTime">
+            <input class="form-control" type="time" name="reservationStartTime"><?php echo $err ?>
         </div>
         <input type="submit" class="btn btn-primary" value="Toevoegen">
     </form>

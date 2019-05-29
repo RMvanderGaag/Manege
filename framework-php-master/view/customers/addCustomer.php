@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <label class="lead" for="">Telefoonnummer</label>
-            <input name="customerPhonenumber" class="form-control" type="phonenumber" max="10" required>
+            <input name="customerPhonenumber" class="form-control" type="number" " required>
         </div>
         <div class="form-group">
             <label class="lead" for="">email</label>

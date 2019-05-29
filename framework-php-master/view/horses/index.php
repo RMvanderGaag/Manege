@@ -5,7 +5,7 @@
                 <th>Naam</th>
                 <th>Leeftijd</th>
                 <th>Ras</th>
-                <th>Kan springen(>145.5)</th>
+                <th>Kan springen(>147.5)</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -17,7 +17,7 @@
                     <td><?php echo $horse["leeftijd"]; ?></td>
                     <td><?php echo getRace($horse["race_id"])["naam"]?></td>
                     <td><?php 
-                    if((getRace($horse["race_id"])["hoogte"]) <= 145.5){
+                    if((getRace($horse["race_id"])["hoogte"]) <= 147.5){
                         echo "Nee";
                     }else{
                         echo "Ja";
