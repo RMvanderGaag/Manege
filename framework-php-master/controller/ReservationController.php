@@ -10,12 +10,26 @@ function index(){
 
 function addReservation(){
     render("reservation/addReservation");
-
 }
 
 function createNewReservation(){
-    createReservation($_POST["reservationName"], $_POST["reservationHorse"], $_POST["reservationStartTime"]);
-    header("location: ".URL."reservation/index");
+    if(check($_POST["reservationStartTime"], $_POST["reservationRide"], $_POST["reservationHorse"])){
+        createReservation($_POST["reservationName"], $_POST["reservationHorse"], $_POST["reservationStartTime"], $_POST["reservationRide"]);
+        header("location: ".URL."reservation/index");
+    }else{
+        $data = array(
+            "id" => $id,
+            "customer_id" => !isset($_POST["reservationName"]) ? "" :$_POST["reservationName"],
+            "horse_id" => !isset($_POST["reservationHorse"]) ? "" :$_POST["reservationHorse"],
+            "start_time" => !isset($_POST["reservationStartTime"]) ? "" :$_POST["reservationStartTime"],
+            "ride" => !isset($_POST["reservationRide"]) ? "" :$_POST["reservationRide"]
+        );
+        render("reservation/addReservation", array("reservation" => $data,
+        "error" => "Er is al een reservering met deze gegevens",
+        "customers" => getAllCustomers(),
+        "horses" => getAllHorses()
+    ));
+    }
 }
 
 function deleteReservation($id){
@@ -29,17 +43,28 @@ function destroyReservation($id){
 }
 
 function editRes($id){
-    $getReservation = getReservation($id);
-    render("reservation/editReservation", array("reservation" => $getReservation));
+    $getReservation = getDataReservation($id);
+    render("reservation/editReservation", array("reservation" => $getReservation, "customers" => getAllCustomers(), "horses" => getAllHorses()));
 }
 
 function updateRes($id){
     $getReservation = getReservation($id);
-    updateReservation($id, $_POST["reservationName"], $_POST["reservationHorse"], $_POST["reservationStartTime"]);
-    header("location: ".URL."reservation/index");
-}
-
-function checkReservation(){
-    check($_POST["reservationName"], $_POST["reservationHorse"], $_POST["reservationStartTime"], $_POST["reservationRide"]);
-    
+    if(check($_POST["reservationStartTime"], $_POST["reservationRide"], $_POST["reservationHorse"], $id)){
+        updateReservation($id, $_POST["reservationName"], $_POST["reservationHorse"], $_POST["reservationStartTime"], $_POST["reservationRide"]);
+        header("location: ".URL."reservation/index");
+    }else{
+       $data = array(
+           "id" => $id,
+           "customer_id" => $_POST["reservationName"],
+           "horse_id" => $_POST["reservationHorse"],
+           "start_time" => $_POST["reservationStartTime"],
+           "ride" => $_POST["reservationRide"]
+       );
+       render("reservation/editReservation", array(
+           "reservation" => $data,
+           "error" => "Er is al een reservering met deze gegevens",
+           "customers" => getAllCustomers(),
+           "horses" => getAllHorses()
+       ));
+    }
 }
